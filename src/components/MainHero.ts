@@ -25,17 +25,17 @@ export class MainHero extends BaseElement {
         this.updateSpawnCounter();
     }
 
-    draw() {
+    protected draw() {
         this.background.circle(0, 0, HERO_RADIUS);
         this.background.fill(HERO_COLOR);
         this.addChild(this.background);
     }
 
-    moveToPoint(position:Point): void {
+    public moveToPoint(position:Point): void {
         this.targetPosition = position;
     }
 
-    update(delta: number): void {
+    public update(delta: number): void {
         const dx = this.targetPosition.x - this.x;
         const dy = this.targetPosition.y - this.y;
         const distanceToTarget = Math.sqrt(dx * dx + dy * dy);
@@ -47,7 +47,7 @@ export class MainHero extends BaseElement {
         }
     }
 
-    isHeroInsideYard(yard: Yard): boolean {
+    public isHeroInsideYard(yard: Yard): boolean {
         const heroBounds = this.getBounds();
         const yardBounds = yard.getBounds();
         return ( heroBounds.x + heroBounds.width > yardBounds.x &&
@@ -56,18 +56,18 @@ export class MainHero extends BaseElement {
                 heroBounds.y < yardBounds.y + yardBounds.height );
     }
 
-    updateSpawnCounter(counter:number = 0):void {
+    public updateSpawnCounter(counter:number = 0):void {
         if(this.spawnCounter !== counter) {
             this.spawnCounter = counter;
             this.followCounterText.text = this.spawnCounter.toString();
         }
     } 
 
-    getFont():TextStyle {
+    private getFont():TextStyle {
         return new TextStyle({fill: HERO_SPAN_COUNTER_COLOR, fontSize: TEXT_SIZE}); 
     } 
 
-    destroy() {
+    public destroy() {
         super.destroy();
         this.removeChild(this.followCounterText);
         this.followCounterText.destroy();

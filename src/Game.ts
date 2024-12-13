@@ -10,18 +10,20 @@ export class Game {
     private app: Application;
     private gameField!: GameField;
     private mainHero!: MainHero;
-    private animals: Animal[] = [];
+    private animals: Animal[];
     private yard!: Yard;
     private topPanel!: TopPanel;
-    private spawnIntervalId: number = -1;
+    private spawnIntervalId: number;
 
     constructor(app:Application) {
         this.app = app;
+        this.spawnIntervalId = -1;
+        this.animals = [];
         this.initGameComponents();
         this.startSpawnAnimals();
     }
 
-    initGameComponents(): void {
+    private initGameComponents(): void {
         this.gameField = new GameField();
         this.gameField.x = YARD_WIDTH;
         this.app.stage.addChild(this.gameField);
@@ -40,7 +42,13 @@ export class Game {
         this.gameField.on('pointerdown', this.onGameFieldClicked.bind(this));
     }
 
-    spawnAnimals(): void {
+    private startSpawnAnimals(): void {
+        this.spawnIntervalId = setInterval(() => {
+            this.spawnAnimals();
+        }, ANIMAL_SPAWN_INTERVAL);
+    }
+
+    private spawnAnimals(): void {
         if(this.animals.length >= MAX_ANIMALS_COUNT_ON_SCREEN) {
             return;
         }
@@ -49,13 +57,7 @@ export class Game {
         this.app.stage.addChild(animal);
     }
 
-    startSpawnAnimals(): void {
-        this.spawnIntervalId = setInterval(() => {
-            this.spawnAnimals();
-        }, ANIMAL_SPAWN_INTERVAL);
-    }
-
-    update(delta: Ticker): void {
+    private update(delta: Ticker): void {
         let deltaTime:number = parseFloat(delta.deltaTime.toFixed(4));
         this.mainHero.update(deltaTime);
         const followingAnimals = this.animals.filter(animal => animal.getFollowing());
@@ -81,19 +83,19 @@ export class Game {
         this.mainHero.updateSpawnCounter(followingAnimals.length);
     }
 
-    onGameFieldClicked(event: FederatedPointerEvent): void {
+    private onGameFieldClicked(event: FederatedPointerEvent): void {
         this.mainHero.moveToPoint(event.global);
     }
 
-    getRandomPosition(): Point {
+    private getRandomPosition(): Point {
         return new Point(Math.random() * GAME_WIDTH + YARD_WIDTH, Math.random() * GAME_HEIGHT);
     }
 
-    getHeroStartPosition(): Point {
+    private getHeroStartPosition(): Point {
         return new Point(GAME_WIDTH * 0.5, GAME_HEIGHT * 0.5);
     }
 
-    destroy() {
+    public destroy() {
         this.app.ticker.remove(this.update);
         if(this.spawnIntervalId != -1) {
             clearInterval(this.spawnIntervalId)

@@ -15,25 +15,25 @@ export class TopPanel extends Sprite{
         this.reset();
     }
 
-    reset(): void {
+    public reset(): void {
         this.counter = 0;
         this.updateScoreText();
     }
 
-    update(value:number = 1): void {
+    public update(value:number = 1): void {
         this.counter += value;
         this.updateScoreText();
     }
 
-    updateScoreText(): void {
+    public updateScoreText(): void {
         this.scoreTextField.text = SCORE_PANEL_TEXT + this.counter;
     }
 
-    getFont():TextStyle {
+    private getFont():TextStyle {
        return new TextStyle({fill: TEXT_PANEL_COLOR, fontSize: TEXT_SIZE}); 
     } 
 
-    destroy() {
+    public destroy() {
         super.destroy();
         this.removeChild(this.scoreTextField);
         this.scoreTextField.destroy();

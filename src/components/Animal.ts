@@ -19,13 +19,13 @@ export class Animal extends BaseElement {
         this.setPatrolTarget();
     }
 
-    draw() {
+    protected draw() {
         this.background.circle(0, 0, ANIMAL_RADIUS);
         this.background.fill(ANIMAL_COLOR);
         this.addChild(this.background);
     }
 
-    update(delta: number, mainHero: MainHero, yard: Yard, heroInYard: boolean, followingAnimals: Animal[]): void {
+    public update(delta: number, mainHero: MainHero, yard: Yard, heroInYard: boolean, followingAnimals: Animal[]): void {
         if (this.following) {
             this.followMainHero(delta, mainHero, followingAnimals);
         } else {
@@ -38,7 +38,7 @@ export class Animal extends BaseElement {
         }
     }
 
-    followMainHero(delta: number, mainHero: MainHero, followingAnimals: Animal[]): void {
+    private followMainHero(delta: number, mainHero: MainHero, followingAnimals: Animal[]): void {
         let followIndex = followingAnimals.indexOf(this);
         const angle = (Math.PI) / followingAnimals.length * followIndex;
         
@@ -55,14 +55,14 @@ export class Animal extends BaseElement {
         }
     }
 
-    checkIfCanFollowForHero(mainHero: MainHero): boolean {
+    public checkIfCanFollowForHero(mainHero: MainHero): boolean {
         const dx = mainHero.x - this.x;
         const dy = mainHero.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         return distance < DISTANCE_BETWEEN_HERO_AND_ANIMAL_TO_FOLLOW;
     }
 
-    patrol(delta: number): void {
+    private patrol(delta: number): void {
         if (!this.patrolTarget) {
             this.setPatrolTarget();
         }
@@ -79,11 +79,11 @@ export class Animal extends BaseElement {
         }
     }
 
-    setPatrolTarget(): void {
+    private setPatrolTarget(): void {
         this.patrolTarget = new Point(Math.random() * GAME_WIDTH + YARD_WIDTH, Math.random() * GAME_HEIGHT);
     }
 
-    isAnimalInsideYard(yard: Yard): boolean {
+    public isAnimalInsideYard(yard: Yard): boolean {
         const yardBounds = yard.getBounds();
         const animalBounds = this.getBounds();
         return (animalBounds.x + animalBounds.width > yardBounds.x &&
@@ -92,12 +92,12 @@ export class Animal extends BaseElement {
                 animalBounds.y < yardBounds.y + yardBounds.height);
     }
 
-    getFollowing() { return this.following; }
-    setFollowing(value: boolean) {
+    public getFollowing() { return this.following; }
+    public setFollowing(value: boolean) {
         this.following = value;
     }
 
-    destroy() {
+    public destroy() {
         super.destroy();
         //this.patrolTarget = null;
     }

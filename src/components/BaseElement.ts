@@ -8,15 +8,15 @@ export class BaseElement extends Sprite {
         this.draw();
     }
 
-    draw(): void {
+    protected draw(): void {
        this.addChild(this.background);
     }
 
-    getBounds():Bounds {
+    public getBounds():Bounds {
         return this.background.getBounds();
     }
 
-    destroy(): void {
+    public destroy(): void {
         this.removeChild(this.background);
         this.background.destroy();
     }
