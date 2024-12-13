@@ -29,7 +29,7 @@ export class Animal extends BaseElement {
         if (this.following) {
             this.followMainHero(delta, mainHero, followingAnimals);
         } else {
-            this.patrol(delta);
+            this.startPatrol(delta);
         }
     
         if (heroInYard && this.isAnimalInsideYard(yard)) {
@@ -62,7 +62,7 @@ export class Animal extends BaseElement {
         return distance < DISTANCE_BETWEEN_HERO_AND_ANIMAL_TO_FOLLOW;
     }
 
-    private patrol(delta: number): void {
+    private startPatrol(delta: number): void {
         if (!this.patrolTarget) {
             this.setPatrolTarget();
         }
