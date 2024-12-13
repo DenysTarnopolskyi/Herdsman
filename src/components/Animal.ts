@@ -92,7 +92,10 @@ export class Animal extends BaseElement {
                 animalBounds.y < yardBounds.y + yardBounds.height);
     }
 
-    public getFollowing() { return this.following; }
+    public getFollowing() {
+        return this.following; 
+    }
+
     public setFollowing(value: boolean) {
         this.following = value;
     }
