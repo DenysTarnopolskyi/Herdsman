@@ -19,5 +19,6 @@ export class BaseElement extends Sprite {
     public destroy(): void {
         this.removeChild(this.background);
         this.background.destroy();
+        //this.background = null;
     }
 }
