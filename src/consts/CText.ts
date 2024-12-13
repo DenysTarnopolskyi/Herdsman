@@ -1,0 +1,1 @@
+export const SCORE_PANEL_TEXT = "Score: ";
