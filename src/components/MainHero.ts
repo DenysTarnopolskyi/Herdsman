@@ -57,7 +57,7 @@ export class MainHero extends BaseElement {
     }
 
     public updateSpawnCounter(counter:number = 0):void {
-        if(this.spawnCounter !== counter) {
+        if(this.spawnCounter != counter) {
             this.spawnCounter = counter;
             this.followCounterText.text = this.spawnCounter.toString();
         }

@@ -67,8 +67,8 @@ export class Animal extends BaseElement {
             this.setPatrolTarget();
         }
 
-        const dx = this.patrolTarget!.x - this.x;
-        const dy = this.patrolTarget!.y - this.y;
+        const dx = this.patrolTarget.x - this.x;
+        const dy = this.patrolTarget.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance > ANIMAL_RADIUS) {
