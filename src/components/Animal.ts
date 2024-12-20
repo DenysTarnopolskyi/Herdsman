@@ -39,7 +39,7 @@ export class Animal extends BaseElement {
     }
 
     private followMainHero(delta: number, mainHero: MainHero, followingAnimals: Animal[]): void {
-        let followIndex = followingAnimals.indexOf(this);
+        const followIndex = followingAnimals.indexOf(this);
         const angle = (Math.PI) / followingAnimals.length * followIndex;
         
         const targetX = mainHero.x + Math.cos(angle) * FOLLOW_RADIUS;
