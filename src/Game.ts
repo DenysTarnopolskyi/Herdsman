@@ -50,6 +50,7 @@ export class Game {
 
     private spawnAnimals(): void {
         if(this.animals.length >= MAX_ANIMALS_COUNT_ON_SCREEN) {
+            this.clearSpawnIntervalId();
             return;
         }
         const animal = new Animal(this.getRandomPosition());
@@ -97,17 +98,39 @@ export class Game {
 
     public destroy() {
         this.app.ticker.remove(this.update);
+        this.clearSpawnIntervalId();
+        this.removeAnimals();
+
+        this.topPanel.destroy();
+        this.yard.destroy();
+        this.mainHero.destroy();
+        this.gameField.off('pointerdown');
+        this.gameField.removeAllListeners();
+        this.gameField.destroy();
+        this.app.destroy();
+    }
+
+    private removeAnimals(): void {
+        if(!this.animals.length) {
+            return;
+        }
+        for (var i = this.animals.length-1; i >= 0; i--) {
+            this.removeAnimal(this.animals[i], i);
+        }
+        this.animals = [];
+    }
+
+    private removeAnimal(animal: Animal, index:number): void {
+        this.app.stage.removeChild(animal);
+        this.animals.splice(index, 1);
+        animal.destroy();
+        //animal = null;
+    }
+
+    private clearSpawnIntervalId(): void {
         if(this.spawnIntervalId != -1) {
             clearInterval(this.spawnIntervalId)
             this.spawnIntervalId = -1;
         }
-
-        this.animals = [];
-        this.topPanel.destroy();
-        this.yard.destroy();
-        this.mainHero.destroy();
-        this.gameField.removeAllListeners();
-        this.gameField.destroy();
-        this.app.destroy();
     }
 }
